@@ -89,7 +89,7 @@ export default function AddWorkout({ onWorkoutAdded }) {
                   />
                 </Form.Group>
 
-                <Button variant="primary" type="submit" disabled={loading}>
+                <Button id="addWorkout" variant="primary" type="submit" disabled={loading}>
                   {loading ? 'Creating...' : 'Create'}
                 </Button>
               </Form>

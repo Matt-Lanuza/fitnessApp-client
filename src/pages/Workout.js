@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Modal } from 'react-bootstrap';
 import AddWorkout from '../components/AddWorkout';
+import UpdateWorkout from '../components/UpdateWorkout';
 import { Notyf } from 'notyf';
 
 const notyf = new Notyf();
 
 export default function Workouts() {
   const [workouts, setWorkouts] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [selectedWorkoutId, setSelectedWorkoutId] = useState(null);
 
   const fetchWorkouts = () => {
     const token = localStorage.getItem('token');
@@ -27,7 +29,7 @@ export default function Workouts() {
           return response.json();
         })
         .then((data) => {
-          console.log("Workouts of user", data);
+          console.log('Workouts of user', data);
           setWorkouts(data.workouts);
         })
         .catch((error) => {
@@ -42,37 +44,63 @@ export default function Workouts() {
     fetchWorkouts();
   }, []);
 
+  // Handle opening the update modal with selected workout ID
+  const handleEditClick = (workoutId) => {
+    setSelectedWorkoutId(workoutId);
+    setShowUpdateModal(true);
+  };
+
   return (
     <Container className="mt-5 text-center">
-      {/* Add Workout Modal */}
-      <Button
-        variant="primary"
-        className="mb-4 mx-3"
-        onClick={() => setShowModal(true)}
-      >
-        Add Workout
-      </Button>
-
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Create New Workout</Modal.Title>
-        </Modal.Header>
-        <Modal.Body style={{ marginBottom: '30px' }}>
-          <AddWorkout
-            onWorkoutAdded={() => {
-              fetchWorkouts();
-              setShowModal(false);
-            }}
-          />
-        </Modal.Body>
-      </Modal>
 
 
+      {/* Update Workout Modal */}
+      {showUpdateModal && selectedWorkoutId && (
+        <Modal show={showUpdateModal} onHide={() => setShowUpdateModal(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Update Workout</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <UpdateWorkout
+              workoutId={selectedWorkoutId}
+              onWorkoutUpdated={() => {
+                fetchWorkouts();
+                setShowUpdateModal(false);
+              }}
+            />
+          </Modal.Body>
+        </Modal>
+      )}
 
       {/* Workouts List */}
       <Row className="justify-content-center">
         <Col md={12}>
           <h1 className="text-center mb-4">Your Workouts</h1>
+          {/* Start Add Workout Modal */}
+          <Button
+            variant="primary"
+            className="mb-4 mx-3"
+            onClick={() => setShowAddModal(true)}
+          >
+            Add Workout
+          </Button>
+
+          <Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title>Create New Workout</Modal.Title>
+            </Modal.Header>
+            <Modal.Body style={{ marginBottom: '30px' }}>
+              <AddWorkout
+                onWorkoutAdded={() => {
+                  fetchWorkouts();
+                  setShowAddModal(false);
+                }}
+              />
+            </Modal.Body>
+          </Modal>
+          {/*End Add Workout Modal*/}
+
+
           {workouts.length > 0 ? (
             <Row className="gy-4 my-3">
               {workouts.map((workout) => (
@@ -102,8 +130,12 @@ export default function Workouts() {
                           hour12: true,
                         })}
                       </p>
-                      <Button variant="primary" size="sm">
-                        View Details
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        onClick={() => handleEditClick(workout._id)}
+                      >
+                        Edit
                       </Button>
                     </Card.Body>
                   </Card>
@@ -117,6 +149,4 @@ export default function Workouts() {
       </Row>
     </Container>
   );
-
-
 }
