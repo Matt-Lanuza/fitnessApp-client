@@ -1,0 +1,8 @@
+{
+    "url": "https://fitnessapi-lanuza.onrender.com",
+    "endpoints": {
+        "register": "/register",
+        "login": "/login",
+        "workouts": "/workouts"
+    }
+}
