@@ -16,6 +16,8 @@ export default function AddWorkout({ onWorkoutAdded }) {
   const addWorkout = (e) => {
     e.preventDefault();
 
+    console.log("Workout status before submission:", status); 
+
     const token = localStorage.getItem('token');
     if (!token) {
       notyf.error('You need to be logged in to add a workout');
@@ -47,7 +49,7 @@ export default function AddWorkout({ onWorkoutAdded }) {
         notyf.success('Workout added successfully');
         setName('');
         setDuration('');
-        setStatus('');
+        setStatus('pending');
         onWorkoutAdded();
       })
       .catch((error) => {
@@ -85,18 +87,6 @@ export default function AddWorkout({ onWorkoutAdded }) {
                     onChange={(e) => setDuration(e.target.value)}
                     required
                   />
-                </Form.Group>
-
-                <Form.Group controlId="workoutStatus" className="mb-3">
-                  <Form.Label>Status:</Form.Label>
-                  <Form.Control
-                    as="select"
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                  >
-                    <option value="pending">Pending</option>
-                    <option value="completed">Completed</option>
-                  </Form.Control>
                 </Form.Group>
 
                 <Button variant="primary" type="submit" disabled={loading}>

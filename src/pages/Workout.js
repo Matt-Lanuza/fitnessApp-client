@@ -90,6 +90,18 @@ export default function Workouts() {
                           {workout.status}
                         </span>
                       </p>
+                      <p>
+                        <strong>Date Added:</strong>{' '}
+                        {new Date(workout.dateAdded).toLocaleString('en-US', {
+                          month: '2-digit',
+                          day: '2-digit',
+                          year: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          second: '2-digit',
+                          hour12: true,
+                        })}
+                      </p>
                       <Button variant="primary" size="sm">
                         View Details
                       </Button>
