@@ -9,11 +9,12 @@ import Logout from './pages/Logout';
 import Workout from './pages/Workout';
 
 function App() {
-  const [user, setUser] = useState({
-    id: null,
-  });
-  
-  /*when refresh, this checks if a user is logged in*/
+    const [user, setUser] = useState(() => {
+      const savedUser = localStorage.getItem('user');
+      return savedUser ? JSON.parse(savedUser) : { id: null };
+    });
+
+
   useEffect(() => {
     const token = localStorage.getItem('token');
 
@@ -35,6 +36,9 @@ function App() {
           setUser({
             id: data.user.id,
           });
+          localStorage.setItem('user', JSON.stringify({
+            id: data.user.id,
+          }));
         } else {
           setUser({
             id: null,
@@ -51,6 +55,7 @@ function App() {
 
   function unsetUser() {
     localStorage.clear();
+    setUser({ id: null });
   }
 
   return (
