@@ -47,7 +47,7 @@ export default function Workouts() {
       {/* Add Workout Modal */}
       <Button
         variant="primary"
-        className="mb-4"
+        className="mb-4 mx-3"
         onClick={() => setShowModal(true)}
       >
         Add Workout
@@ -66,6 +66,8 @@ export default function Workouts() {
           />
         </Modal.Body>
       </Modal>
+
+
 
       {/* Workouts List */}
       <Row className="justify-content-center">
