@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
+import UserContext from '../context/UserContext';
 import { Notyf } from 'notyf';
 
 const notyf = new Notyf();
@@ -8,8 +9,11 @@ export default function AddWorkout({ onWorkoutAdded }) {
   const [name, setName] = useState('');
   const [duration, setDuration] = useState('');
   const [status, setStatus] = useState('pending');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const { user } = useContext(UserContext);
+
+  const addWorkout = (e) => {
     e.preventDefault();
 
     const token = localStorage.getItem('token');
@@ -24,34 +28,34 @@ export default function AddWorkout({ onWorkoutAdded }) {
       status,
     };
 
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/workouts/addNewWorkout`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(workoutData),
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/workouts/addWorkout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(workoutData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data) {
+          notyf.error(data.error || 'Failed to add workout');
+        }
+
+        notyf.success('Workout added successfully');
+        setName('');
+        setDuration('');
+        setStatus('');
+        onWorkoutAdded();
+      })
+      .catch((error) => {
+        notyf.error(error.message || 'Something went wrong');
+      })
+      .finally(() => {
+        setLoading(false);
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to add workout');
-      }
-
-      notyf.success('Workout added successfully');
-      setName('');
-      setDuration('');
-      setStatus('pending');
-      onWorkoutAdded();
-    } catch (error) {
-      notyf.error(error.message || 'Something went wrong');
-    } finally {
-      setLoading(false);
-    }
   };
 
   return (
@@ -60,10 +64,9 @@ export default function AddWorkout({ onWorkoutAdded }) {
         <Col md={8}>
           <Card className="shadow-sm">
             <Card.Body>
-              <h3 className="mb-4">Add New Workout</h3>
-              <Form onSubmit={handleSubmit}>
+              <Form onSubmit={addWorkout}>
                 <Form.Group controlId="workoutName" className="mb-3">
-                  <Form.Label>Name</Form.Label>
+                  <Form.Label>Name:</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Enter workout name"
@@ -74,7 +77,7 @@ export default function AddWorkout({ onWorkoutAdded }) {
                 </Form.Group>
 
                 <Form.Group controlId="workoutDuration" className="mb-3">
-                  <Form.Label>Duration</Form.Label>
+                  <Form.Label>Duration:</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Enter duration"
@@ -85,7 +88,7 @@ export default function AddWorkout({ onWorkoutAdded }) {
                 </Form.Group>
 
                 <Form.Group controlId="workoutStatus" className="mb-3">
-                  <Form.Label>Status</Form.Label>
+                  <Form.Label>Status:</Form.Label>
                   <Form.Control
                     as="select"
                     value={status}
@@ -97,7 +100,7 @@ export default function AddWorkout({ onWorkoutAdded }) {
                 </Form.Group>
 
                 <Button variant="primary" type="submit" disabled={loading}>
-                  {loading ? 'Adding...' : 'Add Workout'}
+                  {loading ? 'Creating...' : 'Create'}
                 </Button>
               </Form>
             </Card.Body>
