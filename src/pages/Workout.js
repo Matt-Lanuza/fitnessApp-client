@@ -6,16 +6,16 @@ const notyf = new Notyf();
 
 export default function Workouts() {
   const [workouts, setWorkouts] = useState([]);
-  const token = localStorage.getItem('token');
-  const userId = localStorage.getItem('userId');
-  console.log("gg", userId);
+  
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
     if (token) {
       fetch(`${process.env.REACT_APP_API_BASE_URL}/workouts/getMyWorkouts`, {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+           Authorization: `Bearer ${token}`,
         },
       })
         .then((response) => {
@@ -34,7 +34,7 @@ export default function Workouts() {
     } else {
       notyf.error('No token found. Please log in first.');
     }
-  }, [token]);
+  }, []);
 
   return (
     <Container className="mt-5 text-center">
