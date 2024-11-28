@@ -50,6 +50,30 @@ export default function Login() {
 		})
 	}
 
+	const retrieveUserDetails = (token) => {
+	  fetch(`${process.env.REACT_APP_API_BASE_URL}/users/details`, {
+	    headers: {
+	      Authorization: `Bearer ${token}`
+	    }
+	  })
+	  .then(res => res.json())
+	  .then(data => {
+	    console.log(data.user.isAdmin);
+
+	    setUser({
+	      id: data.user._id,
+	      firstName: data.user.firstName,
+	      isAdmin: data.user.isAdmin
+	    });
+
+
+	  });
+	};
+
+	useEffect(() => {
+	  setIsActive(email !== '' && password !== '');
+	}, [email, password]);
+
 
 	return (
 	  <Container className="mt-5">
