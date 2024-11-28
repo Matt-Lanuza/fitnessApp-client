@@ -1,20 +1,13 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useContext } from 'react';
+import { Navigate } from 'react-router-dom';
+import UserContext from '../context/UserContext';
 
-export default function LogoutPage() {
-  const navigate = useNavigate();
+export default function Logout() {
+  const { unsetUser } = useContext(UserContext);
 
   useEffect(() => {
-    localStorage.removeItem('token');
-    navigate('/login');
-  }, [navigate]);
+    unsetUser();
+  }, []);
 
-  return (
-    <div className="logout-container">
-      <h2>You have been logged out!</h2>
-      <p>Redirecting to login...</p>
-    </div>
-  );
+  return <Navigate to="/login" />;
 }
-
-

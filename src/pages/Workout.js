@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Notyf } from 'notyf';
 
+const notyf = new Notyf();
+
 export default function Workouts() {
   const [workouts, setWorkouts] = useState([]);
-  const notyf = new Notyf();
   const token = localStorage.getItem('token');
   console.log(token);
 
