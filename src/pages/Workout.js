@@ -6,7 +6,6 @@ const notyf = new Notyf();
 export default function Workouts() {
   const [workouts, setWorkouts] = useState([]);
   const token = localStorage.getItem('token');
-  console.log(token);
 
   useEffect(() => {
     if (token) {
@@ -19,7 +18,6 @@ export default function Workouts() {
         .then((response) => {
           if (!response.ok) {
             notyf.error('Failed to fetch workouts.');
-            throw new Error('Failed to fetch workouts');
           }
           return response.json();
         })

@@ -12,7 +12,8 @@ function App() {
   const [user, setUser] = useState({
     id: null,
   });
-
+  
+  /*when refresh, this checks if a user is logged in*/
   useEffect(() => {
     const token = localStorage.getItem('token');
 
@@ -28,11 +29,11 @@ function App() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        console.log("A user is logged in", data);
 
         if (data !== undefined) {
           setUser({
-            id: data._id,
+            id: data.user.id,
           });
         } else {
           setUser({
