@@ -7,7 +7,6 @@ const notyf = new Notyf();
 export default function UpdateWorkout({ workoutId, onWorkoutUpdated }) {
   const [name, setName] = useState('');
   const [duration, setDuration] = useState('');
-  const [status, setStatus] = useState('pending');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -28,7 +27,6 @@ export default function UpdateWorkout({ workoutId, onWorkoutUpdated }) {
             if (workoutToUpdate) {
               setName(workoutToUpdate.name);
               setDuration(workoutToUpdate.duration);
-              setStatus(workoutToUpdate.status);
             } else {
               notyf.error('Workout not found');
             }
@@ -53,8 +51,7 @@ export default function UpdateWorkout({ workoutId, onWorkoutUpdated }) {
 
     const updatedWorkoutData = {
       name,
-      duration,
-      status,
+      duration
     };
 
     setLoading(true);
