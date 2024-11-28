@@ -27,3 +27,23 @@
 .navbar-collapse {
   color: #F5F5DC;
 }
+
+
+.status-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 0.70rem;
+  font-weight: 500;
+  border-radius: 12px;
+  text-transform: capitalize;
+}
+
+.status-badge.completed {
+  background-color: #28a745;
+  color: white;
+}
+
+.status-badge.pending {
+  background-color: #dc3545;
+  color: white;
+}
