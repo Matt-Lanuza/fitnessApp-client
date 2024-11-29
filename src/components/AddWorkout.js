@@ -1,6 +1,5 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
-import UserContext from '../context/UserContext';
 import { Notyf } from 'notyf';
 
 const notyf = new Notyf();
@@ -11,7 +10,6 @@ export default function AddWorkout({ onWorkoutAdded }) {
   const [status, setStatus] = useState('pending');
   const [loading, setLoading] = useState(false);
 
-  const { user } = useContext(UserContext);
 
   const addWorkout = (e) => {
     e.preventDefault();
