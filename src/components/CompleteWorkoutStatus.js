@@ -6,14 +6,13 @@ const notyf = new Notyf();
 
 export default function CompleteWorkoutStatus({ workoutId, initialStatus, onStatusUpdated }) {
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState(initialStatus); // Use initial status passed as prop
+  const [status, setStatus] = useState(initialStatus);
 
   const handleToggleStatus = () => {
     setLoading(true);
     const token = localStorage.getItem('token');
 
     if (token) {
-      // Send PATCH request to update the workout status
       fetch(`${process.env.REACT_APP_API_BASE_URL}/workouts/completeWorkoutStatus/${workoutId}`, {
         method: 'PATCH',
         headers: {
@@ -21,7 +20,7 @@ export default function CompleteWorkoutStatus({ workoutId, initialStatus, onStat
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          status: status === 'pending' ? 'completed' : 'pending', // Toggle between 'pending' and 'completed'
+          status: status === 'pending' ? 'completed' : 'pending',
         }),
       })
         .then((response) => {
@@ -32,9 +31,9 @@ export default function CompleteWorkoutStatus({ workoutId, initialStatus, onStat
           }
           const newStatus = status === 'pending' ? 'completed' : 'pending';
           notyf.success(`Workout status updated to ${newStatus}.`);
-          setStatus(newStatus); // Update local state with new status
+          setStatus(newStatus);
           if (onStatusUpdated) {
-            onStatusUpdated(); // Trigger parent component to update UI
+            onStatusUpdated();
           }
         })
         .catch((error) => {
