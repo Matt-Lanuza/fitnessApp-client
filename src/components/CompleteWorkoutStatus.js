@@ -48,7 +48,7 @@ export default function CompleteWorkoutStatus({ workoutId, initialStatus, onStat
 
   return (
     <Button
-      variant={status === 'pending' ? 'success' : 'secondary'}
+      variant={status === 'pending' ? 'success' : 'success'}
       onClick={handleToggleStatus}
       disabled={loading || status === 'completed'}
       size="sm"
