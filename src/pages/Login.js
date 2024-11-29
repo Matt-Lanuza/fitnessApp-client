@@ -24,7 +24,7 @@ export default function Login() {
   function authenticate(e) {
     e.preventDefault();
 
-    fetch(`${process.env.REACT_APP_API_BASE_URL}/users/login`, {
+    fetch('https://fitnessapi-lanuza.onrender.com/users/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ export default function Login() {
         if (data.access !== undefined) {
           localStorage.setItem('token', data.access);
 
-          fetch(`${process.env.REACT_APP_API_BASE_URL}/users/details`, {
+          fetch('https://fitnessapi-lanuza.onrender.com/users/details', {
             headers: {
               Authorization: `Bearer ${data.access}`,
             },

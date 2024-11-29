@@ -16,7 +16,7 @@ export default function UpdateWorkout({ workoutId, onWorkoutUpdated }) {
 
       const token = localStorage.getItem('token');
       if (token) {
-        fetch(`${process.env.REACT_APP_API_BASE_URL}/workouts/getMyWorkouts`, {
+        fetch('https://fitnessapi-lanuza.onrender.com/workouts/getMyWorkouts', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ export default function UpdateWorkout({ workoutId, onWorkoutUpdated }) {
 
     setLoading(true);
 
-    fetch(`${process.env.REACT_APP_API_BASE_URL}/workouts/updateWorkout/${workoutId}`, {
+    fetch(`https://fitnessapi-lanuza.onrender.com/workouts/updateWorkout/${workoutId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

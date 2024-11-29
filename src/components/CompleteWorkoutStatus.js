@@ -13,7 +13,7 @@ export default function CompleteWorkoutStatus({ workoutId, initialStatus, onStat
     const token = localStorage.getItem('token');
 
     if (token) {
-      fetch(`${process.env.REACT_APP_API_BASE_URL}/workouts/completeWorkoutStatus/${workoutId}`, {
+      fetch(`https://fitnessapi-lanuza.onrender.com/workouts/completeWorkoutStatus/${workoutId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

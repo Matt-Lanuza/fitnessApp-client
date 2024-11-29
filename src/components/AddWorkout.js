@@ -30,7 +30,7 @@ export default function AddWorkout({ onWorkoutAdded }) {
 
     setLoading(true);
 
-    fetch(`${process.env.REACT_APP_API_BASE_URL}/workouts/addWorkout`, {
+    fetch('https://fitnessapi-lanuza.onrender.com/workouts/addWorkout', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
