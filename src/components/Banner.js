@@ -14,6 +14,7 @@ export default function Banner() {
       navigate('/workout');
     } else {
       notyf.error('Please log in first to start your fitness journey!');
+      navigate('/login');
     }
   };
 
