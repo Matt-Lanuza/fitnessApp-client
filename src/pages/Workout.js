@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Modal } from 'react-bootstrap';
 import AddWorkout from '../components/AddWorkout';
 import UpdateWorkout from '../components/UpdateWorkout';
+import DeleteWorkout from '../components/DeleteWorkout';
 import { Notyf } from 'notyf';
 
 const notyf = new Notyf();
@@ -50,8 +51,27 @@ export default function Workouts() {
     setShowUpdateModal(true);
   };
 
+  const handleWorkoutDeleted = () => {
+    fetchWorkouts();
+  };
+
   return (
     <Container className="mt-5 text-center">
+    {/*Modals*/}
+      {/* Start Add Workout Modal */}
+      <Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Create New Workout</Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{ marginBottom: '30px' }}>
+          <AddWorkout
+            onWorkoutAdded={() => {
+              fetchWorkouts();
+              setShowAddModal(false);
+            }}
+          />
+        </Modal.Body>
+      </Modal>
 
 
       {/* Update Workout Modal */}
@@ -72,11 +92,12 @@ export default function Workouts() {
         </Modal>
       )}
 
+
       {/* Workouts List */}
       <Row className="justify-content-center">
         <Col md={12}>
           <h1 className="text-center mb-4">Your Workouts</h1>
-          {/* Start Add Workout Modal */}
+          
           <Button
             variant="primary"
             className="mb-4 mx-3"
@@ -84,22 +105,6 @@ export default function Workouts() {
           >
             Add Workout
           </Button>
-
-          <Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
-            <Modal.Header closeButton>
-              <Modal.Title>Create New Workout</Modal.Title>
-            </Modal.Header>
-            <Modal.Body style={{ marginBottom: '30px' }}>
-              <AddWorkout
-                onWorkoutAdded={() => {
-                  fetchWorkouts();
-                  setShowAddModal(false);
-                }}
-              />
-            </Modal.Body>
-          </Modal>
-          {/*End Add Workout Modal*/}
-
 
           {workouts.length > 0 ? (
             <Row className="gy-4 my-3">
@@ -130,13 +135,22 @@ export default function Workouts() {
                           hour12: true,
                         })}
                       </p>
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        onClick={() => handleEditClick(workout._id)}
-                      >
-                        Edit
-                      </Button>
+
+                        <Button
+                          variant="secondary"
+                          size="sm"
+                          onClick={() => handleEditClick(workout._id)}
+                          className="mx-2"
+                        >
+                          Edit
+                        </Button>
+
+                        <DeleteWorkout
+                          workoutId={workout._id}
+                          onWorkoutDeleted={handleWorkoutDeleted}
+                        />
+
+
                     </Card.Body>
                   </Card>
                 </Col>
