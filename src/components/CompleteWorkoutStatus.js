@@ -49,12 +49,12 @@ export default function CompleteWorkoutStatus({ workoutId, initialStatus, onStat
 
   return (
     <Button
-      variant={status === 'pending' ? 'success' : 'warning'}
+      variant={status === 'pending' ? 'success' : 'secondary'}
       onClick={handleToggleStatus}
-      disabled={loading}
+      disabled={loading || status === 'completed'}
       size="sm"
     >
-      Complete
+      {status === 'completed' ? 'Completed' : 'Complete'}
     </Button>
   );
 }

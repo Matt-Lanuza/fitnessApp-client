@@ -45,7 +45,7 @@ export default function DeleteWorkout({ workoutId, onWorkoutDeleted }) {
 
   return (
     <Button
-      variant="danger"
+      variant="dark"
       onClick={handleDelete}
       disabled={loading}
       size="sm"

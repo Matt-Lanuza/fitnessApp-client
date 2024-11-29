@@ -11,7 +11,6 @@ const notyf = new Notyf();
 export default function Workouts() {
   const [workouts, setWorkouts] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
-  const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedWorkoutId, setSelectedWorkoutId] = useState(null);
 
   const fetchWorkouts = () => {
@@ -47,9 +46,8 @@ export default function Workouts() {
   }, []);
 
   // Handle opening the update modal with selected workout ID
-  const handleEditClick = (workoutId) => {
+  const handleEdit = (workoutId) => {
     setSelectedWorkoutId(workoutId);
-    setShowUpdateModal(true);
   };
 
   const handleWorkoutDeleted = () => {
@@ -58,8 +56,7 @@ export default function Workouts() {
 
   return (
     <Container className="mt-5 text-center">
-    {/*Modals*/}
-      {/* Start Add Workout Modal */}
+      {/* Add Workout Modal */}
       <Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Create New Workout</Modal.Title>
@@ -74,31 +71,11 @@ export default function Workouts() {
         </Modal.Body>
       </Modal>
 
-
-      {/* Update Workout Modal */}
-      {showUpdateModal && selectedWorkoutId && (
-        <Modal show={showUpdateModal} onHide={() => setShowUpdateModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Update Workout</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <UpdateWorkout
-              workoutId={selectedWorkoutId}
-              onWorkoutUpdated={() => {
-                fetchWorkouts();
-                setShowUpdateModal(false);
-              }}
-            />
-          </Modal.Body>
-        </Modal>
-      )}
-
-
       {/* Workouts List */}
       <Row className="justify-content-center">
         <Col md={12}>
           <h1 className="text-center mb-4">Your Workouts</h1>
-          
+
           <Button
             variant="primary"
             className="mb-4 mx-3"
@@ -137,26 +114,18 @@ export default function Workouts() {
                         })}
                       </p>
 
-                        <Button
-                          variant="secondary"
-                          size="sm"
-                          onClick={() => handleEditClick(workout._id)}
-                        >
-                          Edit
-                        </Button>
+                      <Button onClick={() => handleEdit(workout._id)} size="sm">Edit</Button>
 
-                        <DeleteWorkout
-                          workoutId={workout._id}
-                          onWorkoutDeleted={handleWorkoutDeleted}
-                        />
+                      <DeleteWorkout
+                        workoutId={workout._id}
+                        onWorkoutDeleted={handleWorkoutDeleted}
+                      />
 
-                        <CompleteWorkoutStatus
-                          workoutId={workout._id}
-                          initialStatus={workout.status} 
-                          onStatusUpdated={fetchWorkouts}
-                        />
-
-
+                      <CompleteWorkoutStatus
+                        workoutId={workout._id}
+                        initialStatus={workout.status}
+                        onStatusUpdated={fetchWorkouts}
+                      />
                     </Card.Body>
                   </Card>
                 </Col>
@@ -167,6 +136,17 @@ export default function Workouts() {
           )}
         </Col>
       </Row>
+
+      {/* UpdateWorkout Modal (visible when selectedWorkoutId is set) */}
+      {selectedWorkoutId && (
+        <UpdateWorkout
+          workoutId={selectedWorkoutId}
+          onWorkoutUpdated={() => {
+            fetchWorkouts();
+            setSelectedWorkoutId(null); 
+          }}
+        />
+      )}
     </Container>
   );
 }
