@@ -3,6 +3,7 @@ import { Container, Row, Col, Card, Button, Modal } from 'react-bootstrap';
 import AddWorkout from '../components/AddWorkout';
 import UpdateWorkout from '../components/UpdateWorkout';
 import DeleteWorkout from '../components/DeleteWorkout';
+import CompleteWorkoutStatus from '../components/CompleteWorkoutStatus';
 import { Notyf } from 'notyf';
 
 const notyf = new Notyf();
@@ -140,7 +141,6 @@ export default function Workouts() {
                           variant="secondary"
                           size="sm"
                           onClick={() => handleEditClick(workout._id)}
-                          className="mx-2"
                         >
                           Edit
                         </Button>
@@ -148,6 +148,12 @@ export default function Workouts() {
                         <DeleteWorkout
                           workoutId={workout._id}
                           onWorkoutDeleted={handleWorkoutDeleted}
+                        />
+
+                        <CompleteWorkoutStatus
+                          workoutId={workout._id}
+                          initialStatus={workout.status} 
+                          onStatusUpdated={fetchWorkouts}
                         />
 
 

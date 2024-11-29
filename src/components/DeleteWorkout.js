@@ -49,7 +49,7 @@ export default function DeleteWorkout({ workoutId, onWorkoutDeleted }) {
       onClick={handleDelete}
       disabled={loading}
       size="sm"
-      className="mx-2"
+      className="mx-1"
     >
       {loading ? 'Deleting...' : 'Delete'}
     </Button>
