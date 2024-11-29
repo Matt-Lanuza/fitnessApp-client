@@ -13,10 +13,9 @@ export default function Workouts() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedWorkoutId, setSelectedWorkoutId] = useState(null);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const fetchWorkouts = () => {
-    setLoading(true);
     const token = localStorage.getItem('token');
     if (token) {
       fetch(`${process.env.REACT_APP_API_BASE_URL}/workouts/getMyWorkouts`, {
@@ -29,18 +28,22 @@ export default function Workouts() {
         .then((response) => {
           if (!response.ok) {
             notyf.error('Failed to fetch workouts.');
+            setLoading(false);
           }
           return response.json();
         })
         .then((data) => {
           console.log('Workouts of user', data);
           setWorkouts(data.workouts);
+          setLoading(false);
         })
         .catch((error) => {
           console.error('Error fetching workouts:', error);
+          setLoading(false);
         });
     } else {
       notyf.error('No token found. Please log in first.');
+      setLoading(false);
     }
   };
 
@@ -60,7 +63,6 @@ export default function Workouts() {
   const handleStatusUpdated = () => {
     fetchWorkouts();
   };
-
 
   return (
     <Container className="mt-5 text-center">
@@ -92,7 +94,11 @@ export default function Workouts() {
             Add Workout
           </Button>
 
-          {workouts.length > 0 ? (
+          {loading ? (
+            <div className="d-flex justify-content-center">
+              <Spinner animation="border" variant="primary" />
+            </div>
+          ) : workouts.length > 0 ? (
             <Row className="gy-4 my-3">
               {workouts.map((workout) => (
                 <Col md={4} key={workout._id}>
