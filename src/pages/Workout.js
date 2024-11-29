@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button, Modal } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Modal, Spinner } from 'react-bootstrap';
 import AddWorkout from '../components/AddWorkout';
 import UpdateWorkout from '../components/UpdateWorkout';
 import DeleteWorkout from '../components/DeleteWorkout';
@@ -13,7 +13,10 @@ export default function Workouts() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedWorkoutId, setSelectedWorkoutId] = useState(null);
 
+  const [loading, setLoading] = useState(false);
+
   const fetchWorkouts = () => {
+    setLoading(true);
     const token = localStorage.getItem('token');
     if (token) {
       fetch(`${process.env.REACT_APP_API_BASE_URL}/workouts/getMyWorkouts`, {
