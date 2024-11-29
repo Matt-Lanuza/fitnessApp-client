@@ -54,6 +54,11 @@ export default function Workouts() {
     fetchWorkouts();
   };
 
+  const handleStatusUpdated = () => {
+    fetchWorkouts();
+  };
+
+
   return (
     <Container className="mt-5 text-center">
       {/* Add Workout Modal */}
@@ -124,7 +129,7 @@ export default function Workouts() {
                       <CompleteWorkoutStatus
                         workoutId={workout._id}
                         initialStatus={workout.status}
-                        onStatusUpdated={fetchWorkouts}
+                        onStatusUpdated={handleStatusUpdated}
                       />
                     </Card.Body>
                   </Card>

@@ -32,6 +32,7 @@ export default function CompleteWorkoutStatus({ workoutId, initialStatus, onStat
           const newStatus = status === 'pending' ? 'completed' : 'pending';
           notyf.success(`Workout status updated to ${newStatus}.`);
           setStatus(newStatus);
+          
           if (onStatusUpdated) {
             onStatusUpdated();
           }
@@ -48,7 +49,7 @@ export default function CompleteWorkoutStatus({ workoutId, initialStatus, onStat
 
   return (
     <Button
-      variant={status === 'pending' ? 'success' : 'success'}
+      variant="success"
       onClick={handleToggleStatus}
       disabled={loading || status === 'completed'}
       size="sm"
