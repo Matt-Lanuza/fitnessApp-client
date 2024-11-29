@@ -1,4 +1,4 @@
-# Fitness App API - Documentation
+# Fitness App - Client - Documentation
 
 ## Resources
 
@@ -7,7 +7,7 @@
 
 ## User Credentials
 ### Dummy Users
-- **email**: dummyuser@workout.com  
+- **email**: dummy@workout.com  
 - **password**: dummy123 <br><br>
 
 - **email**: teemo@workout.com  
