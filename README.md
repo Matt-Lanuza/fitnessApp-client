@@ -86,7 +86,7 @@
 
     ```
 
-#### [DELETE] - "/workouts/deleteMovie/:id"
+#### [DELETE] - "/workouts/deleteWorkout/:id"
 - Requires Token
 - No Request Body
 
