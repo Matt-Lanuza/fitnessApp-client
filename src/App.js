@@ -23,7 +23,7 @@ function App() {
       return;
     }
 
-    fetch(`${process.env.REACT_APP_API_BASE_URL}/users/details`, {
+    fetch('https://fitnessapi-lanuza.onrender.com/users/details', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
